@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StatsGrid extends StatelessWidget {
+  // stats placed here
   @override
   Widget build(BuildContext context) {
     return Container(

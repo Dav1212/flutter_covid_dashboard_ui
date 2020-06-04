@@ -5,6 +5,7 @@ import 'package:flutter_covid_dashboard_ui/data/data.dart';
 import 'package:flutter_covid_dashboard_ui/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
+  // Everything relate to homescreen
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
