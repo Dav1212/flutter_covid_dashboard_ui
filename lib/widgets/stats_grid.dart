@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// get the name of the country then get the covidnumbers then put it in
 class StatsGrid extends StatelessWidget {
   // stats placed here
   @override

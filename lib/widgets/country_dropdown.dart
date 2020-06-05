@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/screens.dart';
+
 class CountryDropdown extends StatelessWidget {
   // Code here to change countries drop down
   final List<String> countries;
@@ -21,22 +23,17 @@ class CountryDropdown extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(30.0),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: country,
-          items: countries
-              .map((e) => DropdownMenuItem(
-                    child: Row(
+      child: Row(
                       children: <Widget>[
                         CircleAvatar(
                           radius: 12.0,
                           child: Image.asset(
-                            'assets/images/${e.toLowerCase()}_flag.png',
+                            'assets/images/${"usa"}_flag.png',
                           ),
                         ),
                         const SizedBox(width: 8.0),
                         Text(
-                          e,
+                          HomeScreen.currentCountry,
                           style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -44,12 +41,35 @@ class CountryDropdown extends StatelessWidget {
                         )
                       ],
                     ),
-                    value: e,
-                  ))
-              .toList(),
-          onChanged: onChanged,
-        ),
-      ),
+      // child: DropdownButtonHideUnderline(
+      //   child: DropdownButton<String>(
+      //     value: country,
+      //     items: countries
+      //         .map((e) => DropdownMenuItem(
+      //               child: Row(
+      //                 children: <Widget>[
+      //                   CircleAvatar(
+      //                     radius: 12.0,
+      //                     child: Image.asset(
+      //                       'assets/images/${e.toLowerCase()}_flag.png',
+      //                     ),
+      //                   ),
+      //                   const SizedBox(width: 8.0),
+      //                   Text(
+      //                     e,
+      //                     style: const TextStyle(
+      //                       fontSize: 16.0,
+      //                       fontWeight: FontWeight.bold,
+      //                     ),
+      //                   )
+      //                 ],
+      //               ),
+      //               value: e,
+      //             ))
+      //         .toList(),
+      //     onChanged: onChanged,
+      //   ),
+      // ),
     );
   }
 }

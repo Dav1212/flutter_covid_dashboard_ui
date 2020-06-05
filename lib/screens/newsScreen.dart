@@ -1,179 +1,25 @@
-
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_dashboard_ui/config/palette.dart';
 import 'package:flutter_covid_dashboard_ui/config/styles.dart';
 import 'package:flutter_covid_dashboard_ui/data/data.dart';
-import 'package:flutter_covid_dashboard_ui/network/dataStuff.dart';
-import 'package:flutter_covid_dashboard_ui/widgets/row.dart';
 import 'package:flutter_covid_dashboard_ui/widgets/widgets.dart';
-import 'package:number_display/number_display.dart';
-import 'package:sms/sms.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import '../user.dart';
-import 'package:http/http.dart' as http;
 
-class HomeScreen extends StatefulWidget {
-  // Everything relate to homescreen
+
+class NewsScreen extends StatefulWidget {
+  NewsScreen({Key key}) : super(key: key);
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
-
-  static String selectedCountry = "World";
-  static String currentCountry = "World";
+  _NewsScreenState createState() => _NewsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _NewsScreenState extends State<NewsScreen> {
   String _country = 'USA';
-  bool isSearching = false;
-  SmsSender sender = new SmsSender();
-  String address = "877-826-0011";
-  
-
-  final controller = ScrollController();
-  double offset = 0;
-  int total = 0;
-  final display = createDisplay(length: 4);
-  TextEditingController emailController = new TextEditingController();
-
-  String confirmed;
-  String death;
-  String recover;
-
-  AutoCompleteTextField searchTextField;
-  GlobalKey<AutoCompleteTextFieldState<User>> key = new GlobalKey();
-  static List<User> loadUsers(String jsonString) {
-    final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
-    return parsed.map<User>((json) => User.fromJson(json)).toList();
-  }
-  static List<User> users = new List<User>();
-
-   void getUsers() async {
-    try {
-      final response =
-          await http.get("https://coronavirus-19-api.herokuapp.com/countries");
-      if (response.statusCode == 200) {
-        users = loadUsers(response.body);
-        print('Users: ${users.length}');
-        setState(() {
-          //loading = false;
-        });
-      } else {
-        print("Error getting users.");
-      }
-    } catch (e) {
-      print("Error getting users.");
-    }
-  }
-
-  bool isWaiting = false;
-
-  void getData() async {
-    isWaiting = true;
-    try {
-      var data = await Data().getCoronaData(HomeScreen.selectedCountry);
-      isWaiting = false;
-      setState(() {
-        confirmed = Data.totalConfirm;
-        death = Data.totalDeath;
-        recover = Data.totalRecover;
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void onScroll() {
-    setState(() {
-      offset = (controller.hasClients) ? controller.offset : 0;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getUsers();
-    controller.addListener(onScroll);
-    getData();
-    confirmed = Data.totalConfirm;
-    death = Data.totalDeath;
-    recover = Data.totalRecover;
-    getData();
-
-    print(confirmed);
-  }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    return homeScreen(screenHeight);
-  }
-
-  Scaffold homeScreen(double screenHeight) {
-    return Scaffold(appBar:AppBar(
-        elevation: 0.0,
-        backgroundColor: Palette.primaryColor,
-        title: !isSearching
-            ? Text('All Countries')
-            : searchTextField = AutoCompleteTextField<User>(
-              key: key,
-              clearOnSubmit: false,
-              suggestions: users,
-              style: TextStyle(color: Colors.white),
-                decoration: InputDecoration( 
-                    icon: Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                    hintText: "Search Country Here",
-                    hintStyle: TextStyle(color: Colors.white),
-                    fillColor: Palette.primaryColor,
-                    ),
-                    itemFilter: (item, query) {
-                          return item.name
-                              .toLowerCase()
-                              .startsWith(query.toLowerCase());
-                        },
-                        itemSorter: (a, b) {
-                          return a.name.compareTo(b.name);
-                        },
-                        itemSubmitted: (item) {
-                          setState(() {
-                            searchTextField.textField.controller.text =
-                                item.name;
-                            HomeScreen.currentCountry  = item.name;
-                            
-                          });
-                        },
-                        itemBuilder: (context, item) {
-                          // ui for the autocompelete row
-                          return row(item);
-                  },
-            ),
-        actions: <Widget>[
-          isSearching
-              ? IconButton(
-                  icon: Icon(Icons.cancel),
-                  onPressed: () {
-                    setState(() {
-                      this.isSearching = false;
-                      
-                    });
-                  },
-                )
-              : IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    setState(() {
-                      this.isSearching = true;
-                    });
-                  },
-                )
-        ],
-      ),
+    return Scaffold(
+      appBar: CustomAppBar(),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: <Widget>[
@@ -184,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
 
   SliverToBoxAdapter _buildHeader(double screenHeight) {
     return SliverToBoxAdapter(
@@ -210,7 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                // DropDown
                 CountryDropdown(
                   countries: ['CN', 'FR', 'IN', 'IT', 'UK', 'USA'],
                   country: _country,
@@ -247,9 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 10.0,
                         horizontal: 20.0,
                       ),
-                      onPressed: () {
-                        launch("tel://877-826-0011"); // have to do for all countries
-                      },
+                      onPressed: () {},
                       color: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -269,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 10.0,
                         horizontal: 20.0,
                       ),
-                      onPressed: () {
-                         sender.sendSms(new SmsMessage(address, 'Hey')); // have to do for all countries
-                      },
+                      onPressed: () {},
                       color: Colors.blue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),

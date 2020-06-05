@@ -4,6 +4,10 @@ import 'package:flutter_covid_dashboard_ui/config/palette.dart';
 import 'package:flutter_covid_dashboard_ui/config/styles.dart';
 import 'package:flutter_covid_dashboard_ui/data/data.dart';
 import 'package:flutter_covid_dashboard_ui/widgets/widgets.dart';
+import 'package:geolocator/geolocator.dart';
+
+import '../data/data.dart';
+import '../data/data.dart';
 
 class StatsScreen extends StatefulWidget {
   @override
@@ -11,11 +15,18 @@ class StatsScreen extends StatefulWidget {
 }
 
 class _StatsScreenState extends State<StatsScreen> {
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+  Position _currentPosition;
+  String _currentLocality;
+  String _currentPostalCode;
+  String _currentCountry;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Palette.primaryColor,
-      appBar: CustomAppBar(),
+     appBar: CustomAppBar(),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: <Widget>[
@@ -28,6 +39,7 @@ class _StatsScreenState extends State<StatsScreen> {
               child: StatsGrid(),
             ),
           ),
+          // Chart
           SliverPadding(
             padding: const EdgeInsets.only(top: 20.0),
             sliver: SliverToBoxAdapter(
@@ -36,6 +48,7 @@ class _StatsScreenState extends State<StatsScreen> {
           ),
         ],
       ),
+
     );
   }
 
@@ -58,7 +71,7 @@ class _StatsScreenState extends State<StatsScreen> {
   SliverToBoxAdapter _buildRegionTabBar() {
     return SliverToBoxAdapter(
       child: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20.0),
           height: 50.0,
@@ -76,10 +89,31 @@ class _StatsScreenState extends State<StatsScreen> {
             labelColor: Colors.black,
             unselectedLabelColor: Colors.white,
             tabs: <Widget>[
+              // if (1 > 2) {
+              // Text('My States'),
+              // Text('My Country'),
+              // Text('Global'),
+              // },
+              Text("My State"),
               Text('My Country'),
               Text('Global'),
             ],
-            onTap: (index) {},
+            onTap: (index) {
+              if (index == 0) {
+                _getCurrentLocation();
+                _getAddressFromLatLng();
+                print(_currentLocality);
+                print(_currentCountry);
+                print("my State");
+              } else if (index == 1) {
+                print(_currentCountry);
+                print("my country");
+              } else {
+                
+                print("global");
+
+              }
+            },
           ),
         ),
       ),
@@ -107,5 +141,38 @@ class _StatsScreenState extends State<StatsScreen> {
         ),
       ),
     );
+  }
+
+  // Functions that get location
+
+  _getCurrentLocation() {
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+
+      _getAddressFromLatLng();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentLocality = "${place.locality}";
+        _currentPostalCode = " ${place.postalCode}";
+        _currentCountry = "${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
