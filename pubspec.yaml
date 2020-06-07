@@ -28,11 +28,14 @@ dependencies:
   fl_chart: ^0.9.4
   sms: ^0.2.4
   url_launcher: ^5.4.10
-  flappy_search_bar: ^1.4.1
+  flappy_search_bar: ^1.7.2
   autocomplete_textfield: ^1.7.3
   http: ^0.12.1
   number_display: ^2.2.1
   geolocator: ^5.1.3
+  rxdart: ^0.20.0
+  flag: ^3.0.1
+  country_icons: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +55,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/flgs/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_covid_dashboard_ui/screens/screens.dart';
 
 void main() {

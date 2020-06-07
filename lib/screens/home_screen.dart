@@ -2,12 +2,12 @@
 
 import 'dart:convert';
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_dashboard_ui/config/palette.dart';
 import 'package:flutter_covid_dashboard_ui/config/styles.dart';
 import 'package:flutter_covid_dashboard_ui/data/data.dart';
 import 'package:flutter_covid_dashboard_ui/network/dataStuff.dart';
-import 'package:flutter_covid_dashboard_ui/widgets/row.dart';
 import 'package:flutter_covid_dashboard_ui/widgets/widgets.dart';
 import 'package:number_display/number_display.dart';
 import 'package:sms/sms.dart';
@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isSearching = false;
   SmsSender sender = new SmsSender();
   String address = "877-826-0011";
+ 
   
 
   final controller = ScrollController();
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return parsed.map<User>((json) => User.fromJson(json)).toList();
   }
   static List<User> users = new List<User>();
+
 
    void getUsers() async {
     try {
@@ -113,9 +115,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Scaffold homeScreen(double screenHeight) {
-    return Scaffold(appBar:AppBar(
+    return Scaffold(
+      appBar:AppBar(
         elevation: 0.0,
         backgroundColor: Palette.primaryColor,
+      //   leading: IconButton(
+      //   icon: const Icon(Icons.menu),
+      //   iconSize: 28.0,
+      //   onPressed: () {},
+      // ),
         title: !isSearching
             ? Text('All Countries')
             : searchTextField = AutoCompleteTextField<User>(
@@ -149,8 +157,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           });
                         },
                         itemBuilder: (context, item) {
-                          // ui for the autocompelete row
-                          return row(item);
+                          return Card(
+                            child: ListTile(
+                            title: Text(item.name),
+                            
+                            ),
+                          );
+                          //return row(item);
                   },
             ),
         actions: <Widget>[
@@ -160,8 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     setState(() {
                       this.isSearching = false;
-                      
-                    });
+                      //Navigator.pop(context);
+                      }
+                    );
                   },
                 )
               : IconButton(
@@ -169,6 +183,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     setState(() {
                       this.isSearching = true;
+                      //  Navigator.push(context, 
+                      // MaterialPageRoute(
+                      //  builder: (context) => SearchScreen()));
                     });
                   },
                 )

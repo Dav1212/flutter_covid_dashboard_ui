@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:number_display/number_display.dart';
-import 'package:flutter_covid_dashboard_ui/user.dart';
+
 
 const List<String> fields = ['cases', 'deaths', 'recovered'];
 
@@ -49,10 +49,14 @@ class Data {
         recover = decodedData['recovered'];
         totalRecover = display(recover);
 
+        // Today cases
+
         todayCases = decodedData['todayCases'];
         totalTodayCases = display(todayCases);
         todayDeaths = decodedData['todayDeaths'];
         totalTodayDeaths = display(todayDeaths);
+
+        //
 
         active = decodedData['active'];
         totalActive = display(active);
