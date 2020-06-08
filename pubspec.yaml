@@ -36,6 +36,8 @@ dependencies:
   rxdart: ^0.20.0
   flag: ^3.0.1
   country_icons: ^1.1.1
+  cached_network_image: ^2.0.0
+  webview_flutter: ^0.3.19+9
 
 dev_dependencies:
   flutter_test:
@@ -55,7 +57,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/flgs/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

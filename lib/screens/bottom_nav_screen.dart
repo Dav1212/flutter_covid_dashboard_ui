@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_covid_dashboard_ui/news/views/homepage.dart';
 import 'package:flutter_covid_dashboard_ui/screens/newsScreen.dart';
 import 'package:flutter_covid_dashboard_ui/screens/screens.dart';
 
@@ -11,7 +12,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final List _screens = [
     HomeScreen(),
     StatsScreen(),
-    NewsScreen(),
+    HomePage(),
     
   ];
   int _currentIndex = 0;
