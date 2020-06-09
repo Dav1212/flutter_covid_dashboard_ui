@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_dashboard_ui/news/views/homepage.dart';
-import 'package:flutter_covid_dashboard_ui/screens/newsScreen.dart';
 import 'package:flutter_covid_dashboard_ui/screens/screens.dart';
 
 class BottomNavScreen extends StatefulWidget {

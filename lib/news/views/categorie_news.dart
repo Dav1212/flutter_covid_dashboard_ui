@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_dashboard_ui/news/helper/news.dart';
 import 'package:flutter_covid_dashboard_ui/news/helper/newsAppBar.dart';
-import 'package:flutter_covid_dashboard_ui/news/helper/newsData.dart';
 import 'package:flutter_covid_dashboard_ui/news/helper/widgets.dart';
 
 class CategoryNews extends StatefulWidget {
@@ -21,7 +20,6 @@ class _CategoryNewsState extends State<CategoryNews> {
   @override
   void initState() {
     getNews();
-    // TODO: implement initState
     super.initState();
   }
 

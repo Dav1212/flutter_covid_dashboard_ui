@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_covid_dashboard_ui/news/helper/newsAppBar.dart';
 import 'package:flutter_covid_dashboard_ui/news/helper/newsData.dart';
 import 'package:flutter_covid_dashboard_ui/news/helper/widgets.dart';
 import 'package:flutter_covid_dashboard_ui/news/models/categorie_model.dart';
@@ -31,7 +30,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _loading = true;
-    // TODO: implement initState
     super.initState();
 
     categories = getCategories();
